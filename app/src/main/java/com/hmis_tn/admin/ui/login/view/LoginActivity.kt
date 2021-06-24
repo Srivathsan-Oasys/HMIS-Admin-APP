@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.hmis_tn.admin.R
 import com.hmis_tn.admin.ui.home.view.HomeActivity
+import com.hmis_tn.admin.ui.home.view.PatientDetailesActivity
 import com.hmis_tn.admin.ui.login.model.LoginReq
 import com.hmis_tn.admin.ui.login.model.LoginResp
 import com.hmis_tn.admin.ui.login.view_model.LoginViewModel
@@ -73,7 +74,7 @@ class LoginActivity : AppCompatActivity() {
                             editor.apply()
                         }
 
-                        val intent = Intent(applicationContext, HomeActivity::class.java)
+                        val intent = Intent(applicationContext, PatientDetailesActivity::class.java)
                         startActivity(intent)
                     } else {
                         val sb = Snackbar.make(
