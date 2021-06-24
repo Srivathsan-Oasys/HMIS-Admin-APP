@@ -1,6 +1,6 @@
-package com.hmis_tn.admin.ui.home.model.response
+package com.hmis_tn.admin.ui.home.model.network
 
-data class OpListRespItem(
+data class ResponseContent(
     val encounter_type_name: String? = "",
     val facility_category_name: String? = "",
     val facility_category_uuid: Int? = 0,

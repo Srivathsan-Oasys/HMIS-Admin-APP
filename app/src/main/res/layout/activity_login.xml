@@ -33,7 +33,8 @@
                 android:id="@+id/etUserName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/user_name" />
+                android:hint="@string/user_name"
+                android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -57,7 +58,9 @@
                 android:id="@+id/etPwd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/password" />
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

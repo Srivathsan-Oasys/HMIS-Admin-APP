@@ -2,7 +2,6 @@ package com.hmis_tn.admin.network
 
 import com.hmis_tn.admin.patientSearch.model.GenderListResponseModel
 import com.hmis_tn.admin.patientSearch.model.GenderReq
-import com.hmis_tn.admin.patientSearch.model.GenderResponse
 import com.hmis_tn.admin.ui.home.model.response.OpListResp
 import com.hmis_tn.admin.ui.login.model.LoginReq
 import com.hmis_tn.admin.ui.login.model.LoginResp
@@ -25,8 +24,12 @@ interface ApiService {
         @Body loginReq: LoginReq
     ): Call<LoginResp>
 
-    @GET(GET_OP_LIST)
-    fun getOpList(): Call<OpListResp>
+    @POST(GET_OP_LIST)
+    fun getOpList(
+        @Header("Authorization") authorization: String?,
+        @Header("user_uuid") user_uuid: Int,
+        @Body opListReq: OpListReq
+    ): Call<OpListResp>
 
 
     @POST(POST_GENDER_LIST)
@@ -35,5 +38,4 @@ interface ApiService {
         @Header("user_uuid") user_uuid: Int?,
         @Body loginReq: GenderReq
     ): Call<GenderListResponseModel>
-
 }

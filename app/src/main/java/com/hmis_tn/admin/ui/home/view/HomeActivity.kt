@@ -12,9 +12,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hmis_tn.admin.R
 import com.hmis_tn.admin.ui.home.model.Institution
-import com.hmis_tn.admin.ui.home.model.response.OpListResp
-import com.hmis_tn.admin.ui.home.model.response.OpListRespItem
+import com.hmis_tn.admin.ui.home.model.network.OpListReq
+import com.hmis_tn.admin.ui.home.model.network.OpListResp
 import com.hmis_tn.admin.ui.home.view_model.HomeViewModel
+import com.hmis_tn.admin.utils.Constants
 import com.hmis_tn.admin.utils.ProgressUtil
 import kotlinx.android.synthetic.main.activity_home.*
 import retrofit2.Call
@@ -25,7 +26,6 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var homeViewModel: HomeViewModel
 
-    private val list = ArrayList<OpListRespItem>()
     val displayList = ArrayList<ArrayList<Institution>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,11 +48,15 @@ class HomeActivity : AppCompatActivity() {
 
     private fun listeners() {
         tvOp.setOnClickListener {
+            displayList.clear()
+            rvInstitutions?.adapter?.notifyDataSetChanged()
             selectButton(tvOp)
             getOpList()
         }
 
         tvIp.setOnClickListener {
+            displayList.clear()
+            rvInstitutions?.adapter?.notifyDataSetChanged()
             selectButton(tvIp)
         }
     }
@@ -79,37 +83,50 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun getOpList() {
+        val body = OpListReq(
+            encounter_type_id = "1",
+            from_datetime = "2021-06-24 00:00:00",
+            to_datetime = "2021-06-24 23:59:59"
+        )
+        val pref = getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, MODE_PRIVATE)
+        val authorization = "Bearer ${pref.getString(Constants.PREF_ACCESS_TOKEN, "")}"
+        val userUuid = pref.getInt(Constants.PREF_USER_UUID, 0)
         homeViewModel.getOpList(
             this,
+            authorization,
+            userUuid,
+            body,
             object : Callback<OpListResp> {
                 override fun onResponse(call: Call<OpListResp>, response: Response<OpListResp>) {
                     ProgressUtil.dismissProgressDialog()
-                    response.body()?.let {
-                        val temp = ArrayList<Institution>()
-                        var name =
-                            if (it.isNotEmpty())
-                                it[0].facility_category_name
-                            else
-                                ""
-                        it.forEach { opListRespItem ->
-                            if(opListRespItem.facility_category_name != name) {
-                                displayList.add(temp)
-                                temp.clear()
-                                name = opListRespItem.facility_category_name
-                            }
-                            temp.add(
-                                Institution(
-                                    encounter_type_name = opListRespItem.encounter_type_name,
-                                    facility_category_name = opListRespItem.facility_category_name,
-                                    facility_category_uuid = opListRespItem.facility_category_uuid,
-                                    gender_name = opListRespItem.gender_name,
-                                    gender_uuid = opListRespItem.gender_uuid,
-                                    patient_count = opListRespItem.patient_count
+                    if (response.body()?.code == 200) {
+                        response.body()?.responseContents?.let {
+                            val temp = ArrayList<Institution>()
+                            var name =
+                                if (it.isNotEmpty())
+                                    it[0].facility_category_name
+                                else
+                                    ""
+                            it.forEach { responseContent ->
+                                if (responseContent.facility_category_name != name) {
+                                    displayList.add(temp)
+                                    temp.clear()
+                                    name = responseContent.facility_category_name
+                                }
+                                temp.add(
+                                    Institution(
+                                        encounter_type_name = responseContent.encounter_type_name,
+                                        facility_category_name = responseContent.facility_category_name,
+                                        facility_category_uuid = responseContent.facility_category_uuid,
+                                        gender_name = responseContent.gender_name,
+                                        gender_uuid = responseContent.gender_uuid,
+                                        patient_count = responseContent.patient_count
+                                    )
                                 )
-                            )
+                            }
+                            displayList.add(temp)
+                            rvInstitutions?.adapter?.notifyDataSetChanged()
                         }
-                        displayList.add(temp)
-
                     }
                 }
 
