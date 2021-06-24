@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">Admin App</string>
+    <string name="op">OP</string>
+    <string name="ip">IP</string>
+    <string name="user_name">User Name</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+
     <string name="pin">PIN</string>
     <string name="mobileNo">Mobile No</string>
     <string name="name">Name</string>

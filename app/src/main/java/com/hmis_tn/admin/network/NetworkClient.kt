@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit
 
 class NetworkClient {
     companion object {
-        private const val BASE_URL = "https://cdn-api.co-vin.in/api/"
+        private const val BASE_URL = "http://demo0326468.mockable.io/"
 
         fun getNetworkClient(): ApiService {
             val retrofit = getRetrofitInstance()

@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hmis_tn.admin">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,8 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AdminApp">
         <activity android:name=".patientSearch.view.PatientSearchActivity"></activity>
-        <activity android:name=".home.view.HomeActivity" />
-        <activity android:name=".login.view.LoginActivity">
+        <activity android:name="com.hmis_tn.admin.ui.home.view.HomeActivity"/>
+        <activity android:name="com.hmis_tn.admin.ui.login.view.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

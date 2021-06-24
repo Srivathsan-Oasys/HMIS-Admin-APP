@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".home.view.HomeActivity">
+    tools:context=".ui.home.view.HomeActivity">
 
 
     <TextView
@@ -15,7 +15,7 @@
         android:background="@color/purple_500"
         android:paddingHorizontal="16dp"
         android:paddingVertical="8dp"
-        android:text="OP"
+        android:text="@string/op"
         android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/tvIp"
@@ -30,7 +30,7 @@
         android:layout_marginTop="24dp"
         android:paddingHorizontal="16dp"
         android:paddingVertical="8dp"
-        android:text="IP"
+        android:text="@string/ip"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -52,8 +52,8 @@
             android:layout_height="wrap_content"
             android:background="@color/purple_500"
             android:padding="8dp"
-            android:text="Total Patient Count (1,573)"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            tools:text="Total Patient Count (1,573)" />
     </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
