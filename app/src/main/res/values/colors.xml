@@ -9,4 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="fadeBlue">#CFDDF2</color>
 
+    <color name="grey">#D5D4D4</color>
+    <color name="green">#98E69B</color>
+    <color name="view">#F1F1F1</color>
 </resources>
