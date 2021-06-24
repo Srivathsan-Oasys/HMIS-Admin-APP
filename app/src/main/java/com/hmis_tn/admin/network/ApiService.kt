@@ -2,6 +2,7 @@ package com.hmis_tn.admin.network
 
 import com.hmis_tn.admin.patientSearch.model.GenderListResponseModel
 import com.hmis_tn.admin.patientSearch.model.GenderReq
+import com.hmis_tn.admin.patientSearch.model.PatitentListRequest
 import com.hmis_tn.admin.ui.home.model.network.OpListReq
 import com.hmis_tn.admin.ui.home.model.network.OpListResp
 import com.hmis_tn.admin.ui.login.model.LoginReq
@@ -18,6 +19,7 @@ interface ApiService {
         const val POST_LOGIN = "DEVHMIS-Login/1.0.0/api/authentication/loginNew"
         const val GET_OP_LIST = "DEVHMIS-EMR/v1/api/encounter/getEncounterDashboardPatientCount"
         const val POST_GENDER_LIST = "DEVAppmaster/v1/api/gender/getGender"
+        const val POST_PATIENT_LIST = "DEVHMIS-EMR/v1/api/encounter/getEncounterDashboardPatientInfo"
     }
 
     @POST(POST_LOGIN)
@@ -38,5 +40,12 @@ interface ApiService {
         @Header("Authorization") authorization: String?,
         @Header("user_uuid") user_uuid: Int?,
         @Body loginReq: GenderReq
+    ): Call<GenderListResponseModel>
+
+    @POST(POST_GENDER_LIST)
+    fun getPatitentList(
+        @Header("Authorization") authorization: String?,
+        @Header("user_uuid") user_uuid: Int?,
+        @Body loginReq: PatitentListRequest
     ): Call<GenderListResponseModel>
 }
