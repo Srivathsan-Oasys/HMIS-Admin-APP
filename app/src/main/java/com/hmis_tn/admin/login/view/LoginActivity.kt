@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.hmis_tn.admin.R
 import com.hmis_tn.admin.home.view.HomeActivity
+import com.hmis_tn.admin.patientSearch.view.PatientSearchActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
@@ -24,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
     private fun listeners() {
         btnLogin?.setOnClickListener {
             if (etUserName?.text?.toString() == "admin" && etPwd.text.toString() == "admin") {
-                val intent = Intent(this, HomeActivity::class.java)
+                val intent = Intent(this, PatientSearchActivity::class.java)
                 startActivity(intent)
             } else {
                 val sb = Snackbar.make(
