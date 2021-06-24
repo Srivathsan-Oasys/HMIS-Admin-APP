@@ -2,6 +2,7 @@ package com.hmis_tn.admin.network
 
 import com.hmis_tn.admin.patientSearch.model.GenderListResponseModel
 import com.hmis_tn.admin.patientSearch.model.GenderReq
+import com.hmis_tn.admin.patientSearch.model.PatientListResponseModel
 import com.hmis_tn.admin.patientSearch.model.PatitentListRequest
 import com.hmis_tn.admin.ui.home.model.network.OpListReq
 import com.hmis_tn.admin.ui.home.model.network.OpListResp
@@ -47,5 +48,5 @@ interface ApiService {
         @Header("Authorization") authorization: String?,
         @Header("user_uuid") user_uuid: Int?,
         @Body loginReq: PatitentListRequest
-    ): Call<GenderListResponseModel>
+    ): Call<PatientListResponseModel>
 }

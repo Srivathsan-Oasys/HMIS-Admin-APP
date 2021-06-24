@@ -8,6 +8,8 @@ import com.hmis_tn.admin.network.ApiService
 import com.hmis_tn.admin.network.NetworkClient
 import com.hmis_tn.admin.patientSearch.model.GenderListResponseModel
 import com.hmis_tn.admin.patientSearch.model.GenderReq
+import com.hmis_tn.admin.patientSearch.model.PatientListResponseModel
+import com.hmis_tn.admin.patientSearch.model.PatitentListRequest
 import com.hmis_tn.admin.ui.login.model.LoginReq
 import com.hmis_tn.admin.ui.login.model.LoginResp
 import com.hmis_tn.admin.utils.Constants
@@ -29,5 +31,19 @@ class PatientListViewModel : ViewModel() {
         apiService = NetworkClient.getNetworkClient()
         val call = apiService.postGenderData(token,userId,loginReq)
         call.enqueue(callback)
+    }
+
+    fun getPatitentList(context: Context,
+                        loginReq: PatitentListRequest,
+                        token:String?,
+                        userId:Int?,
+                        callback: Callback<PatientListResponseModel>
+                         ) {
+
+        ProgressUtil.startProgressDialog(context)
+        apiService=NetworkClient.getNetworkClient()
+        val call = apiService.getPatitentList(token,userId,loginReq)
+        call.enqueue(callback)
+
     }
 }
