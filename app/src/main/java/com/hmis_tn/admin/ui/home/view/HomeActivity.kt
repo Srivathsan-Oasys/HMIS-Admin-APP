@@ -57,16 +57,14 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun getOpList() {
-        homeViewModel.getOpList(this) {
-            object : Callback<OpListResp> {
-                override fun onResponse(call: Call<OpListResp>, response: Response<OpListResp>) {
+        homeViewModel.getOpList(this, callback = object : Callback<OpListResp> {
+            override fun onResponse(call: Call<OpListResp>, response: Response<OpListResp>) {
 
-                }
-
-                override fun onFailure(call: Call<OpListResp>, t: Throwable) {
-
-                }
             }
-        }
+
+            override fun onFailure(call: Call<OpListResp>, t: Throwable) {
+
+            }
+        })
     }
 }

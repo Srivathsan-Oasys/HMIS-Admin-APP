@@ -17,6 +17,5 @@ class HomeViewModel : ViewModel() {
         apiService = NetworkClient.getNetworkClient()
         val call = apiService.getOpList()
         call.enqueue(callback)
-
     }
 }
