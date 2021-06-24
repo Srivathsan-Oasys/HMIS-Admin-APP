@@ -1,11 +1,10 @@
-package com.hmis_tn.admin.login.view
+package com.hmis_tn.admin.ui.login.view
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.hmis_tn.admin.R
-import com.hmis_tn.admin.home.view.HomeActivity
 import com.hmis_tn.admin.patientSearch.view.PatientSearchActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
