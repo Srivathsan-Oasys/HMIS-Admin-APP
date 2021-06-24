@@ -1,4 +1,4 @@
-package com.hmis_tn.admin.ui.home.model
+package com.hmis_tn.admin.ui.home.model.response
 
 data class OpListRespItem(
     val encounter_type_name: String? = "",
