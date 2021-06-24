@@ -13,13 +13,16 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.hmis_tn.admin.R
 import com.hmis_tn.admin.patientSearch.model.*
 import com.hmis_tn.admin.patientSearch.view_model.PatientListViewModel
+import com.hmis_tn.admin.ui.home.view.InstitutionAdapter
 import com.hmis_tn.admin.ui.login.model.LoginResp
 import com.hmis_tn.admin.ui.login.view_model.LoginViewModel
 import com.hmis_tn.admin.utils.Constants
 import com.hmis_tn.admin.utils.ProgressUtil
+import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_patient_search.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -46,10 +49,10 @@ class PatientSearchActivity : AppCompatActivity() {
     var cal = Calendar.getInstance()
 
     var facility_category_id = "1"
-    var gender_id :String= ""
+    var gender_id :String= "2"
     var from_datetime:String = ""
     var to_datetime :String= ""
-    var encounter_type_id :String= ""
+    var encounter_type_id :String= "1"
     var token: String?=""
     var userId: Int?=0
 
@@ -59,7 +62,6 @@ class PatientSearchActivity : AppCompatActivity() {
 
 
         initView()
-
         initLisitor()
 
 /*
@@ -68,29 +70,13 @@ class PatientSearchActivity : AppCompatActivity() {
         (spinnerGender as? AutoCompleteTextView)?.setAdapter(genderAdapter)
 */
 
-        val dististitems = listOf("chennai", "bfbhf", "Transgender")
-        val distictAdapter = ArrayAdapter(this,android.R.layout.simple_spinner_item, dististitems)
-        (spinnerDistict as? AutoCompleteTextView)?.setAdapter(distictAdapter)
-
-        val inistutionSpinner = listOf("chennai", "bfbhf", "Transgender")
-        val inistutionAdapter = ArrayAdapter(this,android.R.layout.simple_spinner_item, inistutionSpinner)
-        (spinnerInstitution as? AutoCompleteTextView)?.setAdapter(inistutionAdapter)
-
-        var responseContents :ArrayList<GenderResponse> = ArrayList()
-
-
-
-
-//        {"pageNo":0,"paginationSize":10,"sortField":"name","sortOrder":"DESC","codename":"001","is_active":1,"search":"Superhmis"}
-
 
     }
 
     private fun initLisitor() {
 
         calendarEditText!!.setOnClickListener {
-
-            Toast.makeText(this, "Select Start Date", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Select Start Date", Toast.LENGTH_SHORT).show()
             val c: Calendar = Calendar.getInstance()
             mYear = c.get(Calendar.YEAR)
             mMonth = c.get(Calendar.MONTH)
@@ -99,7 +85,7 @@ class PatientSearchActivity : AppCompatActivity() {
                 this,
                 DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
 
-                    Toast.makeText(this, "Select End Date", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Select End Date", Toast.LENGTH_SHORT).show()
 
                     fromDate = String.format(
                         "%02d",
@@ -139,6 +125,7 @@ class PatientSearchActivity : AppCompatActivity() {
 
                             calendarEditText!!.setText(fromDate + "-" + toDate)
 
+                            getPatientList()
                             Log.i("fromdate",fromDateRev)
                             Log.i("todate",toDateRev)
 
@@ -168,27 +155,21 @@ class PatientSearchActivity : AppCompatActivity() {
     private fun initView() {
         patientListViewModel = ViewModelProvider(this)[PatientListViewModel::class.java]
 
-
-        token = "Bearer "+pref?.getString(Constants.PREF_ACCESS_TOKEN,"s")
-        userId = pref?.getInt(Constants.PREF_USER_UUID,0)
-
         pref = getSharedPreferences(
             Constants.SHARED_PREFERENCE_NAME,
             MODE_PRIVATE
         )
 
+        token = "Bearer "+pref?.getString(Constants.PREF_ACCESS_TOKEN,"s")
+        userId = pref?.getInt(Constants.PREF_USER_UUID,0)
 
 
         val sdf = SimpleDateFormat("yyyy-MM-dd")
-
         val formatter = SimpleDateFormat("dd-MM-yyyy")
-
         calendarEditText!!.setText("""${formatter.format(Date())}-${formatter.format(Date())}""")
-
-
         from_datetime=sdf.format(Date())+" 00:00:00"
         to_datetime=sdf.format(Date())+ " 23:59:59"
-        getGenderData()
+//        getGenderData()
         getPatientList()
     }
 
@@ -212,8 +193,7 @@ class PatientSearchActivity : AppCompatActivity() {
 
                 response.body()?.let { it ->
 
-
-
+                    setAdapter(it.responseContents)
                 }
 
             }
@@ -224,6 +204,25 @@ class PatientSearchActivity : AppCompatActivity() {
             }
         })
 
+
+    }
+
+    private fun setAdapter(responseContents: List<PatientData>) {
+
+        patientListData?.layoutManager = LinearLayoutManager(this@PatientSearchActivity)
+        val adapter = PatitentListAdapter(this@PatientSearchActivity)
+        patientListData?.adapter = adapter
+        adapter.addAll(responseContents)
+
+        tvListPatientCount.text = "Total Patient Count (${responseContents.size!!})"
+
+        adapter.setOnItemClickListener(object :PatitentListAdapter.OnItemClickListener{
+            override fun onItemClick(responseContent: PatientData?, position: Int) {
+                // next page
+
+
+            }
+        })
 
     }
 

@@ -43,7 +43,7 @@ interface ApiService {
         @Body loginReq: GenderReq
     ): Call<GenderListResponseModel>
 
-    @POST(POST_GENDER_LIST)
+    @POST(POST_PATIENT_LIST)
     fun getPatitentList(
         @Header("Authorization") authorization: String?,
         @Header("user_uuid") user_uuid: Int?,
