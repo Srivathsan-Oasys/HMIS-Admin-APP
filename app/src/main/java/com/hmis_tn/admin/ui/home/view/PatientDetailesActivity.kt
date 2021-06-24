@@ -18,18 +18,18 @@ class PatientDetailesActivity: AppCompatActivity() {
     private lateinit var homeViewModel: HomeViewModel
     private var patient_req:Int?=null
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_detailes)
 
         getBundleData()
         initializeViews()
 
         getPatientDetails()
+
     }
 
     private fun getBundleData() {
-        var bundle: Unit =getBundleData()
 
     }
 
@@ -45,6 +45,7 @@ class PatientDetailesActivity: AppCompatActivity() {
         val authorization = "Bearer ${pref.getString(Constants.PREF_ACCESS_TOKEN, "")}"
         val userUuid = pref.getInt(Constants.PREF_USER_UUID, 0)
 
+/*
         homeViewModel.getPatientDetailes(this,authorization,userUuid, patient_req!!,
             object : Callback<PatientDetails> {
                 override fun onResponse(call: Call<PatientDetails>, response: Response<PatientDetails>) {
@@ -58,5 +59,6 @@ class PatientDetailesActivity: AppCompatActivity() {
             }
 
         )
+*/
     }
 }
