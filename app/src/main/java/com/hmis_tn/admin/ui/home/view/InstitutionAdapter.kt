@@ -1,5 +1,6 @@
 package com.hmis_tn.admin.ui.home.view
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,6 +41,8 @@ class InstitutionAdapter(
     private fun listeners(holder: MyViewHolder, institution: ArrayList<Institution>) {
         with(holder.itemView) {
             llInstitution.setOnClickListener {
+                val intent = Intent(context, PatientDetailesActivity::class.java)
+                context.startActivity(intent)
 
             }
         }

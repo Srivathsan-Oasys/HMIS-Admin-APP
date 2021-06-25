@@ -74,7 +74,7 @@ class LoginActivity : AppCompatActivity() {
                             editor.apply()
                         }
 
-                        val intent = Intent(applicationContext, PatientDetailesActivity::class.java)
+                        val intent = Intent(applicationContext, HomeActivity::class.java)
                         startActivity(intent)
                     } else {
                         val sb = Snackbar.make(

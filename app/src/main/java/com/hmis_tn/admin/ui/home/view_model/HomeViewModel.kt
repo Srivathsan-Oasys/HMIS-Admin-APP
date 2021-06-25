@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.hmis_tn.admin.network.ApiService
 import com.hmis_tn.admin.network.NetworkClient
+import com.hmis_tn.admin.ui.home.model.PatientDetailsReq
 import com.hmis_tn.admin.ui.home.model.network.OpListReq
 import com.hmis_tn.admin.ui.home.model.network.OpListResp
 import com.hmis_tn.admin.ui.home.model.patientDetails.PatientDetails
@@ -30,12 +31,12 @@ class HomeViewModel : ViewModel() {
         context: Context,
         authorization: String,
         user_uuid: Int,
-        patientID: Int,
+        patientDetailsReq: PatientDetailsReq,
         callback: Callback<PatientDetails>
     ) {
         ProgressUtil.startProgressDialog(context)
         apiService = NetworkClient.getNetworkClient()
-        val call = apiService.getPatientDetails(authorization, user_uuid,patientID)
+        val call = apiService.getPatientDetails(authorization, user_uuid,patientDetailsReq)
         call.enqueue(callback)
     }
 }
