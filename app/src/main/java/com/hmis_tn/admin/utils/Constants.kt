@@ -15,4 +15,6 @@ object Constants {
     const val BUNDLE_FACILITY_CATEGORY_ID = "facility_category_id"
     const val BUNDLE_GENDER_ID = "gender_id"
     const val BUNDLE_ENCOUNTER_TYPE_ID = "encounter_type_id"
+
+    const val INTENT_PATIENT_ID = "patient_id"
 }

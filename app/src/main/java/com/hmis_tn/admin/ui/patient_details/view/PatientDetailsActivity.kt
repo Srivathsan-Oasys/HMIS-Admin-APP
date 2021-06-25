@@ -13,24 +13,18 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PatientDetailesActivity : AppCompatActivity() {
+class PatientDetailsActivity : AppCompatActivity() {
 
     private lateinit var patientDetailsViewModel: PatientDetailsViewModel
-    private var patient_req: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_detailes)
 
-        getBundleData()
         initializeViews()
 
-        val patientId = "78096"
+        val patientId = intent.getStringExtra(Constants.INTENT_PATIENT_ID) ?: "0"
         getPatientDetails(patientId)
-    }
-
-    private fun getBundleData() {
-
     }
 
     private fun initializeViews() {

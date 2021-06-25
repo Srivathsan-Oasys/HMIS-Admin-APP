@@ -38,8 +38,8 @@ class LoginActivity : AppCompatActivity() {
 
         loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
-        etUserName.setText("nhm")
-        etPwd.setText("lab54321")
+        etUserName.setText("")
+        etPwd.setText("")
     }
 
     private fun listeners() {
@@ -79,7 +79,7 @@ class LoginActivity : AppCompatActivity() {
                         editor.apply()
                     }
 
-                    val intent = Intent(applicationContext, HomeActivity::class.java)
+                    val intent = Intent(this@LoginActivity, HomeActivity::class.java)
                     startActivity(intent)
                 } else {
                     val sb = Snackbar.make(

@@ -1,6 +1,7 @@
 package com.hmis_tn.admin.ui.patientSearch.view
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.hmis_tn.admin.R
 import com.hmis_tn.admin.ui.patientSearch.model.*
 import com.hmis_tn.admin.ui.patientSearch.view_model.PatientListViewModel
+import com.hmis_tn.admin.ui.patient_details.view.PatientDetailsActivity
 import com.hmis_tn.admin.utils.Constants
 import com.hmis_tn.admin.utils.ProgressUtil
 import kotlinx.android.synthetic.main.activity_home.*
@@ -196,11 +198,13 @@ class PatientSearchActivity : AppCompatActivity() {
         patientListData?.adapter = adapter
         adapter.addAll(responseContents)
 
-        tvListPatientCount.text = "Total Patient Count (${responseContents.size!!})"
+        tvListPatientCount.text = "Total Patient Count (${responseContents.size})"
 
         adapter.setOnItemClickListener(object : PatitentListAdapter.OnItemClickListener {
             override fun onItemClick(responseContent: PatientData?, position: Int) {
-                // next page
+                val intent = Intent(this@PatientSearchActivity, PatientDetailsActivity::class.java)
+                intent.putExtra(Constants.INTENT_PATIENT_ID, responseContent?.uuid?.toString())
+                startActivity(intent)
             }
         })
     }
