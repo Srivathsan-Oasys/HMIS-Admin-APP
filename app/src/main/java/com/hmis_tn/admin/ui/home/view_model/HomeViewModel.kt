@@ -6,6 +6,10 @@ import com.hmis_tn.admin.network.ApiService
 import com.hmis_tn.admin.network.NetworkClient
 import com.hmis_tn.admin.ui.home.model.network.InstitutionListReq
 import com.hmis_tn.admin.ui.home.model.network.InstitutionListResp
+import com.hmis_tn.admin.ui.home.model.PatientDetailsReq
+import com.hmis_tn.admin.ui.home.model.network.OpListReq
+import com.hmis_tn.admin.ui.home.model.network.OpListResp
+import com.hmis_tn.admin.ui.home.model.patientDetails.PatientDetails
 import com.hmis_tn.admin.utils.ProgressUtil
 import retrofit2.Callback
 
