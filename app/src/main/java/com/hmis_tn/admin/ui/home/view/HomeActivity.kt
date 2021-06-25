@@ -12,18 +12,21 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hmis_tn.admin.R
-import com.hmis_tn.admin.ui.patientSearch.view.PatientSearchActivity
 import com.hmis_tn.admin.ui.home.model.Institution
 import com.hmis_tn.admin.ui.home.model.network.InstitutionListReq
 import com.hmis_tn.admin.ui.home.model.network.InstitutionListResp
 import com.hmis_tn.admin.ui.home.model.network.ResponseContent
 import com.hmis_tn.admin.ui.home.view_model.HomeViewModel
+import com.hmis_tn.admin.ui.patientSearch.view.PatientSearchActivity
 import com.hmis_tn.admin.utils.Constants
 import com.hmis_tn.admin.utils.ProgressUtil
 import kotlinx.android.synthetic.main.activity_home.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class HomeActivity : AppCompatActivity() {
 
@@ -138,10 +141,14 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun getInstitutionList(encounterTypeId: String) {
+        val sdf = SimpleDateFormat("yyyy-MM-dd")
+        val from_datetime = sdf.format(Date()) + " 00:00:00"
+        val to_datetime = sdf.format(Date()) + " 23:59:59"
+
         val body = InstitutionListReq(
             encounter_type_id = encounterTypeId,
-            from_datetime = "2021-06-24 00:00:00",
-            to_datetime = "2021-06-24 23:59:59"
+            from_datetime = from_datetime,
+            to_datetime = to_datetime
         )
         val pref = getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, MODE_PRIVATE)
         val authorization = "Bearer ${pref.getString(Constants.PREF_ACCESS_TOKEN, "")}"

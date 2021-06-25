@@ -1,6 +1,5 @@
 package com.hmis_tn.admin.ui.home.view
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -65,13 +64,13 @@ class InstitutionAdapter(
             tvFemale.setOnClickListener {
                 val encounterTypeUuid =
                     if (institution.encounter_type_name_2?.equals("OP", true) == true) "1" else "2"
-                click(institution.facility_category_uuid_2 ?: 0, "1", encounterTypeUuid)
+                click(institution.facility_category_uuid_2 ?: 0, "2", encounterTypeUuid)
             }
 
             tvTransgender.setOnClickListener {
                 val encounterTypeUuid =
                     if (institution.encounter_type_name_3?.equals("OP", true) == true) "1" else "2"
-                click(institution.facility_category_uuid_3 ?: 0, "1", encounterTypeUuid)
+                click(institution.facility_category_uuid_3 ?: 0, "3", encounterTypeUuid)
             }
         }
     }
@@ -82,17 +81,36 @@ class InstitutionAdapter(
         genderName: String?
     ) {
         with(holder.itemView) {
+            val maleCount = getCount(institution, "male")
+            val femaleCount = getCount(institution, "female")
+            val transgenderCount = getCount(institution, "transgender")
+
             when {
                 genderName.equals("male", true) -> {
-                    tvMale.text = "Male (${institution.patient_count_1})"
+                    tvMale.text = "Male ($maleCount)"
                 }
                 genderName.equals("female", true) -> {
-                    tvFemale.text = "Female (${institution.patient_count_2})"
+                    tvFemale.text = "Female ($femaleCount)"
                 }
                 genderName.equals("transgender", true) -> {
-                    tvTransgender.text = "Transgender (${institution.patient_count_3})"
+                    tvTransgender.text = "Transgender ($transgenderCount)"
                 }
             }
+        }
+    }
+
+    private fun getCount(institution: Institution, gender: String): Int {
+        return when {
+            institution.gender_name_1?.equals(gender, true) == true -> {
+                institution.patient_count_1 ?: 0
+            }
+            institution.gender_name_2?.equals(gender, true) == true -> {
+                institution.patient_count_2 ?: 0
+            }
+            institution.gender_name_3?.equals(gender, true) == true -> {
+                institution.patient_count_3 ?: 0
+            }
+            else -> 0
         }
     }
 }
