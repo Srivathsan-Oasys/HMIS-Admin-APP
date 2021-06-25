@@ -22,7 +22,7 @@ class PatientDetailsViewModel : ViewModel() {
     ) {
         ProgressUtil.startProgressDialog(context)
         apiService = NetworkClient.getNetworkClient()
-        val call = apiService.getPatientDetails(authorization, user_uuid, patientDetailsReq)
+        val call = apiService.getPatientDetails("en", authorization, user_uuid, patientDetailsReq)
         call.enqueue(callback)
     }
 }
