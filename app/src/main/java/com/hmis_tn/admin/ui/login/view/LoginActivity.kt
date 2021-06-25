@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.hmis_tn.admin.R
 import com.hmis_tn.admin.ui.home.view.HomeActivity
-import com.hmis_tn.admin.ui.home.view.PatientDetailesActivity
 import com.hmis_tn.admin.ui.login.model.LoginReq
 import com.hmis_tn.admin.ui.login.model.LoginResp
 import com.hmis_tn.admin.ui.login.view_model.LoginViewModel
@@ -39,8 +38,8 @@ class LoginActivity : AppCompatActivity() {
 
         loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
-        etUserName.setText("")
-        etPwd.setText("")
+        etUserName.setText("nhm")
+        etPwd.setText("lab54321")
     }
 
     private fun listeners() {

@@ -1,28 +1,28 @@
-package com.hmis_tn.admin.ui.home.view_model
+package com.hmis_tn.admin.ui.patient_details.view_model
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.hmis_tn.admin.network.ApiService
 import com.hmis_tn.admin.network.NetworkClient
-import com.hmis_tn.admin.ui.home.model.network.InstitutionListReq
-import com.hmis_tn.admin.ui.home.model.network.InstitutionListResp
+import com.hmis_tn.admin.ui.patient_details.model.PatientDetailsReq
+import com.hmis_tn.admin.ui.patient_details.model.PatientDetailsResp
 import com.hmis_tn.admin.utils.ProgressUtil
 import retrofit2.Callback
 
-class HomeViewModel : ViewModel() {
+class PatientDetailsViewModel : ViewModel() {
 
     private lateinit var apiService: ApiService
 
-    fun getOpList(
+    fun getPatientDetails(
         context: Context,
         authorization: String,
         user_uuid: Int,
-        institutionListReq: InstitutionListReq,
-        callback: Callback<InstitutionListResp>
+        patientDetailsReq: PatientDetailsReq,
+        callback: Callback<PatientDetailsResp>
     ) {
         ProgressUtil.startProgressDialog(context)
         apiService = NetworkClient.getNetworkClient()
-        val call = apiService.getOpList(authorization, user_uuid, institutionListReq)
+        val call = apiService.getPatientDetails(authorization, user_uuid, patientDetailsReq)
         call.enqueue(callback)
     }
 }

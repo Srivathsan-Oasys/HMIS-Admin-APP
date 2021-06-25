@@ -1,4 +1,4 @@
-package com.hmis_tn.admin.patientSearch.view
+package com.hmis_tn.admin.ui.patientSearch.view
 
 
 
@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hmis_tn.admin.R
-import com.hmis_tn.admin.patientSearch.model.PatientData
+import com.hmis_tn.admin.ui.patientSearch.model.PatientData
 
 class PatitentListAdapter(
     private val context: Context

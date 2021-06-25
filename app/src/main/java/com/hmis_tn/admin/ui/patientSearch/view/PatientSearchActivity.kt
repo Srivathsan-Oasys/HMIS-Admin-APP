@@ -1,4 +1,4 @@
-package com.hmis_tn.admin.patientSearch.view
+package com.hmis_tn.admin.ui.patientSearch.view
 
 import android.app.DatePickerDialog
 import android.content.SharedPreferences
@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hmis_tn.admin.R
-import com.hmis_tn.admin.patientSearch.model.*
-import com.hmis_tn.admin.patientSearch.view_model.PatientListViewModel
+import com.hmis_tn.admin.ui.patientSearch.model.*
+import com.hmis_tn.admin.ui.patientSearch.view_model.PatientListViewModel
 import com.hmis_tn.admin.utils.Constants
 import com.hmis_tn.admin.utils.ProgressUtil
 import kotlinx.android.synthetic.main.activity_home.*

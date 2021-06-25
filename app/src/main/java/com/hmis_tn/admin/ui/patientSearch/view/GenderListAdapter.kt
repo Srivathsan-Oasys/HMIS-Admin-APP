@@ -1,4 +1,4 @@
-package com.hmis_tn.admin.patientSearch.view
+package com.hmis_tn.admin.ui.patientSearch.view
 
 import android.app.Activity
 import android.content.Context
@@ -10,7 +10,7 @@ import android.widget.Filterable
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import com.hmis_tn.admin.R
-import com.hmis_tn.admin.patientSearch.model.GenderResponse
+import com.hmis_tn.admin.ui.patientSearch.model.GenderResponse
 
 class GenderListAdapter(
     context: Context, @LayoutRes

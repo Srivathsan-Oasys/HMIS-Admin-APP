@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AdminApp">
-        <activity android:name=".patientSearch.view.PatientSearchActivity"/>
+        <activity android:name="com.hmis_tn.admin.ui.patientSearch.view.PatientSearchActivity"/>
         <activity android:name="com.hmis_tn.admin.ui.home.view.HomeActivity"/>
         <activity android:name="com.hmis_tn.admin.ui.login.view.LoginActivity">
         <intent-filter>
@@ -21,7 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.hmis_tn.admin.ui.home.view.PatientDetailesActivity">
+        <activity android:name="com.hmis_tn.admin.ui.patient_details.view.PatientDetailesActivity">
         </activity>
 
     </application>

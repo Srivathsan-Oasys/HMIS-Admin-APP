@@ -1,4 +1,4 @@
-package com.hmis_tn.admin.patientSearch.model
+package com.hmis_tn.admin.ui.patientSearch.model
 
 data class GenderReq(
     val is_active: Boolean? = true,

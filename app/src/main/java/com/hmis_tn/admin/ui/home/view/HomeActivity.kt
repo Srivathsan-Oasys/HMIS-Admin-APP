@@ -12,7 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hmis_tn.admin.R
-import com.hmis_tn.admin.patientSearch.view.PatientSearchActivity
+import com.hmis_tn.admin.ui.patientSearch.view.PatientSearchActivity
 import com.hmis_tn.admin.ui.home.model.Institution
 import com.hmis_tn.admin.ui.home.model.network.InstitutionListReq
 import com.hmis_tn.admin.ui.home.model.network.InstitutionListResp

@@ -1,18 +1,13 @@
-package com.hmis_tn.admin.patientSearch.view_model
+package com.hmis_tn.admin.ui.patientSearch.view_model
 
 import android.content.Context
-import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.hmis_tn.admin.network.ApiService
 import com.hmis_tn.admin.network.NetworkClient
-import com.hmis_tn.admin.patientSearch.model.GenderListResponseModel
-import com.hmis_tn.admin.patientSearch.model.GenderReq
-import com.hmis_tn.admin.patientSearch.model.PatientListResponseModel
-import com.hmis_tn.admin.patientSearch.model.PatitentListRequest
-import com.hmis_tn.admin.ui.login.model.LoginReq
-import com.hmis_tn.admin.ui.login.model.LoginResp
-import com.hmis_tn.admin.utils.Constants
+import com.hmis_tn.admin.ui.patientSearch.model.GenderListResponseModel
+import com.hmis_tn.admin.ui.patientSearch.model.GenderReq
+import com.hmis_tn.admin.ui.patientSearch.model.PatientListResponseModel
+import com.hmis_tn.admin.ui.patientSearch.model.PatitentListRequest
 import com.hmis_tn.admin.utils.ProgressUtil
 import retrofit2.Callback
 
