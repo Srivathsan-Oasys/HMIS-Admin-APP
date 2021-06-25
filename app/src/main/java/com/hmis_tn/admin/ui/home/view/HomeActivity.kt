@@ -12,8 +12,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hmis_tn.admin.R
 import com.hmis_tn.admin.ui.home.model.Institution
-import com.hmis_tn.admin.ui.home.model.network.OpListReq
-import com.hmis_tn.admin.ui.home.model.network.OpListResp
+import com.hmis_tn.admin.ui.home.model.network.InstitutionListReq
+import com.hmis_tn.admin.ui.home.model.network.InstitutionListResp
+import com.hmis_tn.admin.ui.home.model.network.ResponseContent
 import com.hmis_tn.admin.ui.home.view_model.HomeViewModel
 import com.hmis_tn.admin.utils.Constants
 import com.hmis_tn.admin.utils.ProgressUtil
@@ -26,7 +27,7 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var homeViewModel: HomeViewModel
 
-    val displayList = ArrayList<ArrayList<Institution>>()
+    val displayList = ArrayList<Institution>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +36,7 @@ class HomeActivity : AppCompatActivity() {
         initViews()
         listeners()
 
-        getOpList()
+        getInstitutionList("1")
     }
 
     private fun initViews() {
@@ -51,13 +52,14 @@ class HomeActivity : AppCompatActivity() {
             displayList.clear()
             rvInstitutions?.adapter?.notifyDataSetChanged()
             selectButton(tvOp)
-            getOpList()
+            getInstitutionList("1")
         }
 
         tvIp.setOnClickListener {
             displayList.clear()
             rvInstitutions?.adapter?.notifyDataSetChanged()
             selectButton(tvIp)
+            getInstitutionList("2")
         }
     }
 
@@ -82,58 +84,97 @@ class HomeActivity : AppCompatActivity() {
         return arr.getColor(0, -1)
     }
 
-    private fun getOpList() {
-        val body = OpListReq(
-            encounter_type_id = "1",
+    private fun populateInstitution(
+        temp: ArrayList<ResponseContent>
+    ): Institution {
+        val tempInstitution = Institution()
+        if (temp.size > 0) {
+            tempInstitution.encounter_type_name_1 = temp[0].encounter_type_name
+            tempInstitution.facility_category_name_1 =
+                temp[0].facility_category_name
+            tempInstitution.facility_category_uuid_1 =
+                temp[0].facility_category_uuid
+            tempInstitution.gender_name_1 = temp[0].gender_name
+            tempInstitution.gender_uuid_1 = temp[0].gender_uuid
+            tempInstitution.patient_count_1 = temp[0].patient_count
+        }
+
+        if (temp.size > 1) {
+            tempInstitution.encounter_type_name_2 = temp[1].encounter_type_name
+            tempInstitution.facility_category_name_2 =
+                temp[1].facility_category_name
+            tempInstitution.facility_category_uuid_2 =
+                temp[1].facility_category_uuid
+            tempInstitution.gender_name_2 = temp[1].gender_name
+            tempInstitution.gender_uuid_2 = temp[1].gender_uuid
+            tempInstitution.patient_count_2 = temp[1].patient_count
+        }
+
+        if (temp.size > 2) {
+            tempInstitution.encounter_type_name_3 = temp[2].encounter_type_name
+            tempInstitution.facility_category_name_3 =
+                temp[2].facility_category_name
+            tempInstitution.facility_category_uuid_3 =
+                temp[2].facility_category_uuid
+            tempInstitution.gender_name_3 = temp[2].gender_name
+            tempInstitution.gender_uuid_3 = temp[2].gender_uuid
+            tempInstitution.patient_count_3 = temp[2].patient_count
+        }
+
+        return tempInstitution
+    }
+
+    private fun getInstitutionList(encounterTypeId: String) {
+        val body = InstitutionListReq(
+            encounter_type_id = encounterTypeId,
             from_datetime = "2021-06-24 00:00:00",
             to_datetime = "2021-06-24 23:59:59"
         )
         val pref = getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, MODE_PRIVATE)
         val authorization = "Bearer ${pref.getString(Constants.PREF_ACCESS_TOKEN, "")}"
         val userUuid = pref.getInt(Constants.PREF_USER_UUID, 0)
-        homeViewModel.getOpList(
-            this,
-            authorization,
-            userUuid,
-            body,
-            object : Callback<OpListResp> {
-                override fun onResponse(call: Call<OpListResp>, response: Response<OpListResp>) {
-                    ProgressUtil.dismissProgressDialog()
-                    if (response.body()?.code == 200) {
-                        response.body()?.responseContents?.let {
-                            val temp = ArrayList<Institution>()
-                            var name =
-                                if (it.isNotEmpty())
-                                    it[0].facility_category_name
-                                else
-                                    ""
-                            it.forEach { responseContent ->
-                                if (responseContent.facility_category_name != name) {
-                                    displayList.add(temp)
-                                    temp.clear()
-                                    name = responseContent.facility_category_name
-                                }
-                                temp.add(
-                                    Institution(
-                                        encounter_type_name = responseContent.encounter_type_name,
-                                        facility_category_name = responseContent.facility_category_name,
-                                        facility_category_uuid = responseContent.facility_category_uuid,
-                                        gender_name = responseContent.gender_name,
-                                        gender_uuid = responseContent.gender_uuid,
-                                        patient_count = responseContent.patient_count
-                                    )
-                                )
-                            }
-                            displayList.add(temp)
-                            rvInstitutions?.adapter?.notifyDataSetChanged()
-                        }
-                    }
-                }
+        homeViewModel.getOpList(this, authorization, userUuid, body, institutionCallback)
+    }
 
-                override fun onFailure(call: Call<OpListResp>, t: Throwable) {
-                    ProgressUtil.dismissProgressDialog()
-                    t.printStackTrace()
+    private val institutionCallback = object : Callback<InstitutionListResp> {
+        override fun onResponse(
+            call: Call<InstitutionListResp>,
+            response: Response<InstitutionListResp>
+        ) {
+            ProgressUtil.dismissProgressDialog()
+            if (response.body()?.code == 200) {
+                response.body()?.responseContents?.let {
+                    val temp = ArrayList<ResponseContent>()
+                    var name =
+                        if (it.isNotEmpty())
+                            it[0].facility_category_name
+                        else
+                            ""
+                    var institution: Institution
+                    var totalPatientCount = 0
+                    it.forEach { responseContent ->
+                        totalPatientCount += responseContent.patient_count ?: 0
+                        if (responseContent.facility_category_name?.equals(name, true) != true) {
+                            institution = populateInstitution(temp)
+
+                            institution.let { t -> displayList.add(t) }
+                            temp.clear()
+                            name = responseContent.facility_category_name
+                        }
+
+                        temp.add(responseContent)
+                    }
+                    institution = populateInstitution(temp)
+                    institution.let { t -> displayList.add(t) }
+                    rvInstitutions?.adapter?.notifyDataSetChanged()
+                    tvPatientCount.text = "Total Patient Count - ($totalPatientCount)"
                 }
-            })
+            }
+        }
+
+        override fun onFailure(call: Call<InstitutionListResp>, t: Throwable) {
+            ProgressUtil.dismissProgressDialog()
+            t.printStackTrace()
+        }
     }
 }

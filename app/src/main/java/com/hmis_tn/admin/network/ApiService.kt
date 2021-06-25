@@ -4,14 +4,13 @@ import com.hmis_tn.admin.patientSearch.model.GenderListResponseModel
 import com.hmis_tn.admin.patientSearch.model.GenderReq
 import com.hmis_tn.admin.patientSearch.model.PatientListResponseModel
 import com.hmis_tn.admin.patientSearch.model.PatitentListRequest
-import com.hmis_tn.admin.ui.home.model.network.OpListReq
-import com.hmis_tn.admin.ui.home.model.network.OpListResp
+import com.hmis_tn.admin.ui.home.model.network.InstitutionListReq
+import com.hmis_tn.admin.ui.home.model.network.InstitutionListResp
 import com.hmis_tn.admin.ui.home.model.patientDetails.PatientDetails
 import com.hmis_tn.admin.ui.login.model.LoginReq
 import com.hmis_tn.admin.ui.login.model.LoginResp
 import retrofit2.Call
 import retrofit2.http.Body
-import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -35,8 +34,8 @@ interface ApiService {
     fun getOpList(
         @Header("Authorization") authorization: String?,
         @Header("user_uuid") user_uuid: Int,
-        @Body opListReq: OpListReq
-    ): Call<OpListResp>
+        @Body institutionListReq: InstitutionListReq
+    ): Call<InstitutionListResp>
 
     @POST(PATIENT_DETAILS)
     fun getPatientDetails(

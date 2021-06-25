@@ -38,6 +38,9 @@ class LoginActivity : AppCompatActivity() {
         pref = getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, MODE_PRIVATE)
 
         loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
+
+        etUserName.setText("parthidoc")
+        etPwd.setText("123456")
     }
 
     private fun listeners() {
@@ -57,40 +60,42 @@ class LoginActivity : AppCompatActivity() {
 
     private fun postLogin(name: String?, pwd: String?) {
         val body = LoginReq(username = name, password = CommonUtils.encrypt(pwd))
-        loginViewModel.postLogin(this, body, object : Callback<LoginResp> {
-            override fun onResponse(call: Call<LoginResp>, response: Response<LoginResp>) {
-                ProgressUtil.dismissProgressDialog()
-                response.body()?.let { loginResp ->
-                    if (loginResp.statusCode == 200) {
-                        pref?.edit()?.let { editor ->
-                            editor.putString(
-                                Constants.PREF_ACCESS_TOKEN,
-                                loginResp.responseContents?.userDetails?.access_token ?: ""
-                            )
-                            editor.putInt(
-                                Constants.PREF_USER_UUID,
-                                loginResp.responseContents?.userDetails?.uuid ?: 0
-                            )
-                            editor.apply()
-                        }
+        loginViewModel.postLogin(this, body, loginCallback)
+    }
 
-                        val intent = Intent(applicationContext, PatientDetailesActivity::class.java)
-                        startActivity(intent)
-                    } else {
-                        val sb = Snackbar.make(
-                            coordinatorLayout,
-                            "Please check the username and password",
-                            Snackbar.LENGTH_SHORT
+    private val loginCallback = object : Callback<LoginResp> {
+        override fun onResponse(call: Call<LoginResp>, response: Response<LoginResp>) {
+            ProgressUtil.dismissProgressDialog()
+            response.body()?.let { loginResp ->
+                if (loginResp.statusCode == 200) {
+                    pref?.edit()?.let { editor ->
+                        editor.putString(
+                            Constants.PREF_ACCESS_TOKEN,
+                            loginResp.responseContents?.userDetails?.access_token ?: ""
                         )
-                        sb.show()
+                        editor.putInt(
+                            Constants.PREF_USER_UUID,
+                            loginResp.responseContents?.userDetails?.uuid ?: 0
+                        )
+                        editor.apply()
                     }
+
+                    val intent = Intent(applicationContext, HomeActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    val sb = Snackbar.make(
+                        coordinatorLayout,
+                        "Please check the username and password",
+                        Snackbar.LENGTH_SHORT
+                    )
+                    sb.show()
                 }
             }
+        }
 
-            override fun onFailure(call: Call<LoginResp>, t: Throwable) {
-                ProgressUtil.dismissProgressDialog()
-                t.printStackTrace()
-            }
-        })
+        override fun onFailure(call: Call<LoginResp>, t: Throwable) {
+            ProgressUtil.dismissProgressDialog()
+            t.printStackTrace()
+        }
     }
 }
