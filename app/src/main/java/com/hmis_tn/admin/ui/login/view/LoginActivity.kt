@@ -81,6 +81,7 @@ class LoginActivity : AppCompatActivity() {
 
                     val intent = Intent(this@LoginActivity, HomeActivity::class.java)
                     startActivity(intent)
+                    finish()
                 } else {
                     val sb = Snackbar.make(
                         coordinatorLayout,
