@@ -38,8 +38,8 @@ class LoginActivity : AppCompatActivity() {
 
         loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
-        etUserName.setText("nhm")
-        etPwd.setText("lab54321")
+        etUserName.setText("")
+        etPwd.setText("")
     }
 
     private fun listeners() {

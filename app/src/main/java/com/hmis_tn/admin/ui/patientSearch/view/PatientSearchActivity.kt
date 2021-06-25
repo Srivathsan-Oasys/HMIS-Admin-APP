@@ -52,7 +52,6 @@ class PatientSearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_search)
 
-
         initView()
         initLisitor()
 
@@ -61,7 +60,6 @@ class PatientSearchActivity : AppCompatActivity() {
         val genderAdapter = ArrayAdapter(this,android.R.layout.simple_spinner_item, items)
         (spinnerGender as? AutoCompleteTextView)?.setAdapter(genderAdapter)
 */
-
 
         onClickViews()
     }
@@ -273,10 +271,10 @@ class PatientSearchActivity : AppCompatActivity() {
             call: Call<PatientListResponseModel>,
             response: Response<PatientListResponseModel>
         ) {
-            ProgressUtil.dismissProgressDialog()
             response.body()?.let { it ->
                 setAdapter(it.responseContents)
             }
+            ProgressUtil.dismissProgressDialog()
         }
 
         override fun onFailure(call: Call<PatientListResponseModel>, t: Throwable) {

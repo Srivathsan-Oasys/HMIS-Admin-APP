@@ -1,27 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toTopOf="parent"
+        android:layout_margin="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_margin="5dp">
+        app:layout_constraintBottom_toTopOf="parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:text="Progress Notes"
-                android:textSize="16sp"
-                android:paddingBottom="10dp"
                 android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="Progress Notes"
+                android:textColor="@color/black"
+                android:textSize="16sp"
                 app:drawableTint="@android:color/darker_gray" />
 
             <androidx.cardview.widget.CardView
@@ -29,133 +32,152 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 app:cardBackgroundColor="@color/fadeBlue">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:orientation="horizontal"
                     android:padding="5dp"
-                    android:layout_gravity="center"
                     android:weightSum="1">
+
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
+                        android:layout_gravity="center"
                         android:layout_margin="10dp"
+                        android:layout_weight="0.05"
+                        app:srcCompat="@drawable/ic_avatar" />
+
+                    <TextView
+                        android:id="@+id/tvPatientDetails"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight=".9"
+                        android:gravity="center_vertical"
+                        android:text="Mr. Pavi / 55 Years / Male"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                    <ImageView
+                        android:id="@+id/imgEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="0.05"
-                        app:srcCompat="@drawable/ic_avatar"/>
-                        <TextView
-                            android:id="@+id/tvPatientDetails"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".9"
-                            android:layout_gravity="center"
-                            android:gravity="center_vertical"
-                            android:text="Mr. Pavi / 55 Years / Male"
-                            android:textColor="@color/black"
-                            android:textSize="12sp" />
-
-            <ImageView
-                android:id="@+id/imgEdit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="0.05"
-                app:tint="@android:color/darker_gray"
-                app:srcCompat="@drawable/ic_arrow_down" />
+                        app:srcCompat="@drawable/ic_arrow_down"
+                        app:tint="@android:color/darker_gray" />
 
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="vertical">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@color/fadeBlue">
+                    android:background="@color/fadeBlue"
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
+                        android:drawableRight="@drawable/ic_arrow_down"
                         android:gravity="center|start"
-                        android:paddingBottom="5dp"
                         android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
                         android:text="Institution Details"
-                        app:drawableTint="@android:color/darker_gray"
-                        android:drawableRight="@drawable/ic_arrow_down"/>
+                        android:textColor="@color/black"
+                        app:drawableTint="@android:color/darker_gray" />
                 </LinearLayout>
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardUseCompatPadding="true">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:orientation="vertical">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Institute"
-                            android:layout_weight="0.7"
-                            android:textColor="@color/black" />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:text="sample1:"
-                            android:layout_weight="0.3"
-                            android:id="@+id/tvInstitute"/>
 
-                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_marginTop="5dp"
                             android:weightSum="1">
+
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Ward"
                                 android:layout_weight="0.7"
+                                android:text="Institute"
                                 android:textColor="@color/black" />
+
                             <TextView
+                                android:id="@+id/tvInstitute"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:text="sample1:"
                                 android:layout_weight="0.3"
-                                android:id="@+id/tvward"/>
+                                android:textColor="@color/black"
+                                tools:text="sample1:" />
 
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
                             android:layout_marginTop="5dp"
+                            android:orientation="horizontal"
+                            android:visibility="gone"
                             android:weightSum="1">
+
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Bed No."
                                 android:layout_weight="0.7"
+                                android:text="Ward"
                                 android:textColor="@color/black" />
+
+                            <TextView
+                                android:id="@+id/tvward"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.3"
+                                android:textColor="@color/black"
+                                tools:text="sample1:" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:orientation="horizontal"
+                            android:visibility="gone"
+                            android:weightSum="1">
+
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:text="sample1:"
+                                android:layout_weight="0.7"
+                                android:text="Bed No."
+                                android:textColor="@color/black" />
+
+                            <TextView
+                                android:id="@+id/tvbedno"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
                                 android:layout_weight="0.3"
-                                android:id="@+id/tvbedno"/>
+                                android:textColor="@color/black"
+                                tools:text="sample1:" />
 
                         </LinearLayout>
 
@@ -166,46 +188,52 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardUseCompatPadding="true"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="10dp"
+                    app:cardUseCompatPadding="true">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:text="Clinical Conditions"
-                            android:gravity="center|start"
-                            android:textSize="16sp"
-                            android:paddingBottom="5dp"
-                            android:paddingTop="5dp"
                             android:background="@color/fadeBlue"
-                            app:drawableTint="@android:color/darker_gray"
-                            android:drawableRight="@drawable/ic_arrow_down"/>
+                            android:drawableRight="@drawable/ic_arrow_down"
+                            android:gravity="center|start"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:text="Clinical Conditions"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            app:drawableTint="@android:color/darker_gray" />
+
                         <androidx.cardview.widget.CardView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:cardUseCompatPadding="true"
-                            android:layout_marginTop="10dp">
+                            android:layout_marginTop="10dp"
+                            app:cardUseCompatPadding="true">
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:text="Progress Notes"
-                            app:drawableTint="@android:color/darker_gray" />
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/rvPatientDetails"
-                                android:layout_width="match_parent"
-                                android:layout_marginTop="10dp"
-                                android:layout_height="wrap_content"
-                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Progress Notes"
+                                    android:textColor="@color/black"
+                                    app:drawableTint="@android:color/darker_gray" />
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/rvPatientDetails"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                    tools:listitem="@layout/row_patient" />
                             </LinearLayout>
 
                         </androidx.cardview.widget.CardView>
@@ -214,12 +242,14 @@
             </LinearLayout>
 
         </LinearLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:orientation="horizontal"
-            android:weightSum="2"
-            android:layout_alignParentBottom="true">
+            android:weightSum="2">
+
             <Button
                 android:id="@+id/btBack"
                 android:layout_width="wrap_content"
@@ -228,14 +258,16 @@
                 android:layout_margin="5dp"
                 android:backgroundTint="@android:color/darker_gray"
                 android:drawableLeft="@drawable/ic_arrow_left"
-                android:text="Back"/>
+                android:text="Back" />
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_margin="5dp"
                 android:drawableLeft="@android:drawable/stat_sys_download"
-                android:text="Download PDf"/>
+                android:text="Download PDf"
+                android:visibility="gone" />
 
         </RelativeLayout>
 

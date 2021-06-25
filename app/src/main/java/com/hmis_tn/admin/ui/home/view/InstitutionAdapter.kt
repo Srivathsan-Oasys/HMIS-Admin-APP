@@ -3,6 +3,7 @@ package com.hmis_tn.admin.ui.home.view
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.hmis_tn.admin.R
 import com.hmis_tn.admin.ui.home.model.Institution
@@ -37,7 +38,15 @@ class InstitutionAdapter(
                 (institution.patient_count_2 ?: 0) +
                 (institution.patient_count_3 ?: 0)
         with(holder.itemView) {
+            populateImage(holder, institution, institution.facility_category_name_1)
+            populateImage(holder, institution, institution.facility_category_name_2)
+            populateImage(holder, institution, institution.facility_category_name_3)
+
             tvInstitution.text = "${institution.facility_category_name_1} - ($count)"
+
+            tvMale.text = "Male (0)"
+            tvFemale.text = "Female (0)"
+            tvTransgender.text = "Transgender (0)"
 
             populateTextViews(holder, institution, institution.gender_name_1)
             populateTextViews(holder, institution, institution.gender_name_2)
@@ -71,6 +80,41 @@ class InstitutionAdapter(
                 val encounterTypeUuid =
                     if (institution.encounter_type_name_3?.equals("OP", true) == true) "1" else "2"
                 click(institution.facility_category_uuid_3 ?: 0, "3", encounterTypeUuid)
+            }
+        }
+    }
+
+    private fun populateImage(
+        holder: MyViewHolder,
+        institution: Institution,
+        categoryName: String?
+    ) {
+        with(holder.itemView) {
+            when {
+                categoryName?.equals("DME") == true -> {
+                    ivInstitution.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.dme
+                        )
+                    )
+                }
+                categoryName?.equals("DMS") == true -> {
+                    ivInstitution.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.dms
+                        )
+                    )
+                }
+                categoryName?.equals("DPH") == true -> {
+                    ivInstitution.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.dph
+                        )
+                    )
+                }
             }
         }
     }

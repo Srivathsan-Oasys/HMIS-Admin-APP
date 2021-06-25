@@ -18,26 +18,26 @@ class PatientListViewModel : ViewModel() {
     fun getGender(
         context: Context,
         loginReq: GenderReq,
-        token:String?,
-        userId:Int?,
+        token: String?,
+        userId: Int?,
         callback: Callback<GenderListResponseModel>
     ) {
         ProgressUtil.startProgressDialog(context)
         apiService = NetworkClient.getNetworkClient()
-        val call = apiService.postGenderData(token,userId,loginReq)
+        val call = apiService.postGenderData(token, userId, loginReq)
         call.enqueue(callback)
     }
 
-    fun getPatitentList(context: Context,
-                        loginReq: PatitentListRequest,
-                        token:String?,
-                        userId:Int?,
-                        callback: Callback<PatientListResponseModel>
-                         ) {
-
+    fun getPatitentList(
+        context: Context,
+        loginReq: PatitentListRequest,
+        token: String?,
+        userId: Int?,
+        callback: Callback<PatientListResponseModel>
+    ) {
         ProgressUtil.startProgressDialog(context)
-        apiService=NetworkClient.getNetworkClient()
-        val call = apiService.getPatitentList(token,userId,loginReq)
+        apiService = NetworkClient.getNetworkClient()
+        val call = apiService.getPatitentList(token, userId, loginReq)
         call.enqueue(callback)
 
     }

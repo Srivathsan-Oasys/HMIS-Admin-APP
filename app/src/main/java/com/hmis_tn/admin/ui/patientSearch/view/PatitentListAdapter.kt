@@ -1,7 +1,6 @@
 package com.hmis_tn.admin.ui.patientSearch.view
 
 
-
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
@@ -16,9 +15,11 @@ class PatitentListAdapter(
     private val context: Context
 ) :
     RecyclerView.Adapter<PatitentListAdapter.MyViewHolder>() {
+
     private var responseContent: ArrayList<PatientData?>? = ArrayList()
     private var onItemClickListener: OnItemClickListener? = null
     private var isLoadingAdded = false
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.row_patient, parent, false)
         return MyViewHolder(view)
@@ -28,23 +29,22 @@ class PatitentListAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val responseContent = responseContent!![position]
 
-        if(responseContent?.title_name != null && responseContent?.title_name != "null"){
+        if (responseContent?.title_name != null && responseContent.title_name != "null") {
 
-            if(responseContent?.last_name != null && responseContent?.last_name != "null") {
-                holder.patientNameTextView.text = responseContent?.title_name +
-                        responseContent?.first_name + " " + responseContent?.last_name + "/" + responseContent?.ageperiod
+            if (responseContent.last_name != null && responseContent.last_name != "null") {
+                holder.patientNameTextView.text = responseContent.title_name +
+                        responseContent.first_name + " " + responseContent.last_name + "/" + responseContent.ageperiod
 
+            } else {
+                holder.patientNameTextView.text = responseContent.title_name +
+                        responseContent.first_name + "/" + responseContent.ageperiod
             }
-            else{
-                holder.patientNameTextView.text =responseContent?.title_name+
-                        responseContent?.first_name + "/" + responseContent?.ageperiod
-            }
-        }else if(responseContent?.last_name != null && responseContent?.last_name != "null") {
+        } else if (responseContent?.last_name != null && responseContent.last_name != "null") {
             holder.patientNameTextView.text =
-                responseContent.first_name + " " + responseContent.last_name + "/" + responseContent?.ageperiod
+                responseContent.first_name + " " + responseContent.last_name + "/" + responseContent.ageperiod
         } else {
             holder.patientNameTextView.text =
-                    responseContent?.first_name + "/" + responseContent?.ageperiod
+                responseContent?.first_name + "/" + responseContent?.ageperiod
         }
         holder.pinTextView.text = responseContent?.uhid
         holder.phoneNumberTextView.text = responseContent?.mobile
@@ -103,7 +103,6 @@ class PatitentListAdapter(
         isLoadingAdded = false
 
     }
-
 
 
 }

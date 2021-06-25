@@ -8,7 +8,8 @@ import java.util.concurrent.TimeUnit
 
 class NetworkClient {
     companion object {
-        private const val BASE_URL = "https://prodhmisgateway.oasyshealth.co/"
+        private val BASE_URL =
+            "https://" + ApiService.ENVIRONMENT.lowercase() + "hmisgateway.oasyshealth.co/"
 
         fun getNetworkClient(): ApiService {
             val retrofit = getRetrofitInstance()

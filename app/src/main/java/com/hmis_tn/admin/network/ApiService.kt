@@ -18,12 +18,15 @@ import retrofit2.http.POST
 interface ApiService {
 
     companion object {
-        const val POST_LOGIN = "PRODHMIS-Login/1.0.0/api/authentication/loginNew"
-        const val GET_OP_LIST = "PRODHMIS-EMR/v1/api/encounter/getEncounterDashboardPatientCount"
-        const val POST_GENDER_LIST = "PRODAppmaster/v1/api/gender/getGender"
+        const val ENVIRONMENT = "UAT"
+
+        const val POST_LOGIN = ENVIRONMENT + "HMIS-Login/1.0.0/api/authentication/loginNew"
+        const val GET_OP_LIST =
+            ENVIRONMENT + "HMIS-EMR/v1/api/encounter/getEncounterDashboardPatientCount"
+        const val POST_GENDER_LIST = ENVIRONMENT + "Appmaster/v1/api/gender/getGender"
         const val POST_PATIENT_LIST =
-            "PRODHMIS-EMR/v1/api/encounter/getEncounterDashboardPatientInfo"
-        const val POST_PATIENT_DETAILS = "PRODregistration/v1/api/patient/getById"
+            ENVIRONMENT + "HMIS-EMR/v1/api/encounter/getEncounterDashboardPatientInfo"
+        const val POST_PATIENT_DETAILS = ENVIRONMENT + "registration/v1/api/patient/getById"
     }
 
     @POST(POST_LOGIN)
