@@ -2,24 +2,15 @@ package com.hmis_tn.admin.patientSearch.view
 
 import android.app.DatePickerDialog
 import android.content.SharedPreferences
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hmis_tn.admin.R
 import com.hmis_tn.admin.patientSearch.model.*
 import com.hmis_tn.admin.patientSearch.view_model.PatientListViewModel
-import com.hmis_tn.admin.ui.home.view.InstitutionAdapter
-import com.hmis_tn.admin.ui.login.model.LoginResp
-import com.hmis_tn.admin.ui.login.view_model.LoginViewModel
 import com.hmis_tn.admin.utils.Constants
 import com.hmis_tn.admin.utils.ProgressUtil
 import kotlinx.android.synthetic.main.activity_home.*
@@ -29,7 +20,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class PatientSearchActivity : AppCompatActivity() {
 
@@ -46,15 +36,15 @@ class PatientSearchActivity : AppCompatActivity() {
     private var fromDateRev: String = ""
     private var toDateRev: String = ""
 
-    var cal = Calendar.getInstance()
+    private var cal = Calendar.getInstance()
 
-    var facility_category_id = "1"
-    var gender_id :String= "2"
-    var from_datetime:String = ""
-    var to_datetime :String= ""
-    var encounter_type_id :String= "1"
-    var token: String?=""
-    var userId: Int?=0
+    private var facility_category_id = "0"
+    private var gender_id: String = "0"
+    private var from_datetime: String = ""
+    private var to_datetime: String = ""
+    private var encounter_type_id: String = "0"
+    var token: String? = ""
+    var userId: Int? = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,7 +88,7 @@ class PatientSearchActivity : AppCompatActivity() {
                     ) + "-" + String.format(
                         "%02d",
                         dayOfMonth
-                    )+" 00:00:00"
+                    ) + " 00:00:00"
 
 
                     cal.set(Calendar.YEAR, year)
@@ -121,13 +111,13 @@ class PatientSearchActivity : AppCompatActivity() {
                             ) + "-" + String.format(
                                 "%02d",
                                 dayOfMonth1
-                            )+ " 23:59:59"
+                            ) + " 23:59:59"
 
                             calendarEditText!!.setText(fromDate + "-" + toDate)
 
                             getPatientList()
-                            Log.i("fromdate",fromDateRev)
-                            Log.i("todate",toDateRev)
+                            Log.i("fromdate", fromDateRev)
+                            Log.i("todate", toDateRev)
 
                         },
                         mYear!!,
@@ -160,49 +150,62 @@ class PatientSearchActivity : AppCompatActivity() {
             MODE_PRIVATE
         )
 
-        token = "Bearer "+pref?.getString(Constants.PREF_ACCESS_TOKEN,"s")
-        userId = pref?.getInt(Constants.PREF_USER_UUID,0)
+        token = "Bearer " + pref?.getString(Constants.PREF_ACCESS_TOKEN, "s")
+        userId = pref?.getInt(Constants.PREF_USER_UUID, 0)
 
 
         val sdf = SimpleDateFormat("yyyy-MM-dd")
         val formatter = SimpleDateFormat("dd-MM-yyyy")
         calendarEditText!!.setText("""${formatter.format(Date())}-${formatter.format(Date())}""")
-        from_datetime=sdf.format(Date())+" 00:00:00"
-        to_datetime=sdf.format(Date())+ " 23:59:59"
+        from_datetime = sdf.format(Date()) + " 00:00:00"
+        to_datetime = sdf.format(Date()) + " 23:59:59"
 //        getGenderData()
+
+        val bundle: Bundle? = intent.extras
+        if (bundle != null) {
+            facility_category_id = bundle.getString(Constants.BUNDLE_FACILITY_CATEGORY_ID, "0")
+            gender_id = bundle.getString(Constants.BUNDLE_GENDER_ID, "0")
+            encounter_type_id = bundle.getString(Constants.BUNDLE_ENCOUNTER_TYPE_ID, "0")
+        }
+
         getPatientList()
     }
 
     private fun getPatientList() {
-        var body=PatitentListRequest(
+        var body = PatitentListRequest(
             facility_category_id = facility_category_id,
             gender_id = gender_id,
             from_datetime = from_datetime,
             to_datetime = to_datetime,
-            encounter_type_id =  encounter_type_id
+            encounter_type_id = encounter_type_id
 
         )
 
-        patientListViewModel.getPatitentList(this,body,token,userId, object : Callback<PatientListResponseModel>{
-            override fun onResponse(
-                call: Call<PatientListResponseModel>,
-                response: Response<PatientListResponseModel>
-            ) {
+        patientListViewModel.getPatitentList(
+            this,
+            body,
+            token,
+            userId,
+            object : Callback<PatientListResponseModel> {
+                override fun onResponse(
+                    call: Call<PatientListResponseModel>,
+                    response: Response<PatientListResponseModel>
+                ) {
 
-                ProgressUtil.dismissProgressDialog()
+                    ProgressUtil.dismissProgressDialog()
 
-                response.body()?.let { it ->
+                    response.body()?.let { it ->
 
-                    setAdapter(it.responseContents)
+                        setAdapter(it.responseContents)
+                    }
+
                 }
 
-            }
-
-            override fun onFailure(call: Call<PatientListResponseModel>, t: Throwable) {
-                ProgressUtil.dismissProgressDialog()
-                t.printStackTrace()
-            }
-        })
+                override fun onFailure(call: Call<PatientListResponseModel>, t: Throwable) {
+                    ProgressUtil.dismissProgressDialog()
+                    t.printStackTrace()
+                }
+            })
 
 
     }
@@ -216,7 +219,7 @@ class PatientSearchActivity : AppCompatActivity() {
 
         tvListPatientCount.text = "Total Patient Count (${responseContents.size!!})"
 
-        adapter.setOnItemClickListener(object :PatitentListAdapter.OnItemClickListener{
+        adapter.setOnItemClickListener(object : PatitentListAdapter.OnItemClickListener {
             override fun onItemClick(responseContent: PatientData?, position: Int) {
                 // next page
 
@@ -228,38 +231,47 @@ class PatientSearchActivity : AppCompatActivity() {
 
     private fun getGenderData() {
 
-        val body= GenderReq()
+        val body = GenderReq()
 
-        patientListViewModel.getGender(this,body,token,userId, object : Callback<GenderListResponseModel> {
-            override fun onResponse(
-                call: Call<GenderListResponseModel>,
-                response: Response<GenderListResponseModel>
-            ) {
+        patientListViewModel.getGender(
+            this,
+            body,
+            token,
+            userId,
+            object : Callback<GenderListResponseModel> {
+                override fun onResponse(
+                    call: Call<GenderListResponseModel>,
+                    response: Response<GenderListResponseModel>
+                ) {
 
-                ProgressUtil.dismissProgressDialog()
+                    ProgressUtil.dismissProgressDialog()
 
-                response.body()?.let { genderListResponseModel ->
+                    response.body()?.let { genderListResponseModel ->
 
-                    if(genderListResponseModel.statusCode==200){
+                        if (genderListResponseModel.statusCode == 200) {
 
-                        setGenderData(genderListResponseModel.responseContents)
+                            setGenderData(genderListResponseModel.responseContents)
 
+                        }
                     }
                 }
-            }
 
-            override fun onFailure(call: Call<GenderListResponseModel>, t: Throwable) {
-                ProgressUtil.dismissProgressDialog()
-                t.printStackTrace()
-            }
-        })
+                override fun onFailure(call: Call<GenderListResponseModel>, t: Throwable) {
+                    ProgressUtil.dismissProgressDialog()
+                    t.printStackTrace()
+                }
+            })
 
     }
 
 
     private fun setGenderData(responseContents: List<GenderResponse>) {
 
-        val responseContentAdapter = GenderListAdapter(this, R.layout.row_chief_complaint_search_result, responseContents as ArrayList<GenderResponse>)
+        val responseContentAdapter = GenderListAdapter(
+            this,
+            R.layout.row_chief_complaint_search_result,
+            responseContents as ArrayList<GenderResponse>
+        )
         spinnerGender!!.threshold = 1
         spinnerGender!!.setAdapter(responseContentAdapter)
         spinnerGender!!.setOnItemClickListener { parent, _, pos, id ->
@@ -267,7 +279,7 @@ class PatientSearchActivity : AppCompatActivity() {
 
             spinnerGender.setText(selectedPoi?.name)
 
-            Log.i("response",""+selectedPoi?.name)
+            Log.i("response", "" + selectedPoi?.name)
 
 
         }

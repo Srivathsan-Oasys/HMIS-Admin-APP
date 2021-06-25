@@ -1,5 +1,6 @@
 package com.hmis_tn.admin.ui.home.view
 
+import android.content.Intent
 import android.content.res.Resources
 import android.content.res.TypedArray
 import android.graphics.Color
@@ -11,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hmis_tn.admin.R
+import com.hmis_tn.admin.patientSearch.view.PatientSearchActivity
 import com.hmis_tn.admin.ui.home.model.Institution
 import com.hmis_tn.admin.ui.home.model.network.InstitutionListReq
 import com.hmis_tn.admin.ui.home.model.network.InstitutionListResp
@@ -42,8 +44,19 @@ class HomeActivity : AppCompatActivity() {
     private fun initViews() {
         homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
+        tvPatientCount.text = "Total Patient Count - (0)"
+
         rvInstitutions?.layoutManager = LinearLayoutManager(this)
-        val adapter = InstitutionAdapter(displayList)
+        val adapter =
+            InstitutionAdapter(displayList) { facilityCategoryId, genderId, encounterTypeId ->
+                val intent = Intent(this, PatientSearchActivity::class.java)
+                val bundle = Bundle()
+                bundle.putString(Constants.BUNDLE_FACILITY_CATEGORY_ID, facilityCategoryId)
+                bundle.putString(Constants.BUNDLE_GENDER_ID, genderId)
+                bundle.putString(Constants.BUNDLE_ENCOUNTER_TYPE_ID, encounterTypeId)
+                intent.putExtras(bundle)
+                startActivity(intent)
+            }
         rvInstitutions?.adapter = adapter
     }
 
@@ -164,8 +177,14 @@ class HomeActivity : AppCompatActivity() {
 
                         temp.add(responseContent)
                     }
+
                     institution = populateInstitution(temp)
-                    institution.let { t -> displayList.add(t) }
+                    if ((institution.patient_count_1 ?: 0) +
+                        (institution.patient_count_2 ?: 0) +
+                        (institution.patient_count_3 ?: 0) > 0
+                    ) {
+                        institution.let { t -> displayList.add(t) }
+                    }
                     rvInstitutions?.adapter?.notifyDataSetChanged()
                     tvPatientCount.text = "Total Patient Count - ($totalPatientCount)"
                 }

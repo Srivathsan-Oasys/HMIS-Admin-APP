@@ -18,11 +18,11 @@ import retrofit2.http.Query
 interface ApiService {
 
     companion object {
-        const val POST_LOGIN = "DEVHMIS-Login/1.0.0/api/authentication/loginNew"
-        const val GET_OP_LIST = "DEVHMIS-EMR/v1/api/encounter/getEncounterDashboardPatientCount"
-        const val PATIENT_DETAILS = "UATregistration/v1/api/patient/getById"
-        const val POST_GENDER_LIST = "DEVAppmaster/v1/api/gender/getGender"
-        const val POST_PATIENT_LIST = "DEVHMIS-EMR/v1/api/encounter/getEncounterDashboardPatientInfo"
+        const val POST_LOGIN = "PRODHMIS-Login/1.0.0/api/authentication/loginNew"
+        const val GET_OP_LIST = "PRODHMIS-EMR/v1/api/encounter/getEncounterDashboardPatientCount"
+        const val PATIENT_DETAILS = "PRODregistration/v1/api/patient/getById"
+        const val POST_GENDER_LIST = "PRODAppmaster/v1/api/gender/getGender"
+        const val POST_PATIENT_LIST = "PRODHMIS-EMR/v1/api/encounter/getEncounterDashboardPatientInfo"
     }
 
     @POST(POST_LOGIN)

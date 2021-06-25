@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hmis_tn.admin.R
 import com.hmis_tn.admin.ui.home.model.Institution
-import com.hmis_tn.admin.utils.CommonUtils
 import kotlinx.android.synthetic.main.item_institutions.view.*
 
 class InstitutionAdapter(
-    private val list: ArrayList<Institution>
+    private val list: ArrayList<Institution>,
+    private val click: (String, String, String) -> Unit
 ) : RecyclerView.Adapter<InstitutionAdapter.MyViewHolder>() {
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view)
@@ -50,14 +50,27 @@ class InstitutionAdapter(
             llInstitution.setOnClickListener {
                 if (llGender.visibility == View.VISIBLE) {
                     llGender.visibility = View.GONE
-//                    llGender?.animate()?.translationY(llGender.height.toFloat())
-//                    llGender?.animate()?.alpha(1.0f)?.duration = 2000
                 } else {
                     llGender.visibility = View.VISIBLE
-//                    llGender?.animate()?.translationY(0F)
-//                    llGender?.animate()?.alpha(0.0f)?.duration = 2000
                 }
+            }
 
+            tvMale.setOnClickListener {
+                val encounterTypeUuid =
+                    if (institution.encounter_type_name_1?.equals("OP", true) == true) "1" else "2"
+                click(institution.facility_category_name_1 ?: "", "1", encounterTypeUuid)
+            }
+
+            tvFemale.setOnClickListener {
+                val encounterTypeUuid =
+                    if (institution.encounter_type_name_2?.equals("OP", true) == true) "1" else "2"
+                click(institution.facility_category_name_2 ?: "", "1", encounterTypeUuid)
+            }
+
+            tvTransgender.setOnClickListener {
+                val encounterTypeUuid =
+                    if (institution.encounter_type_name_3?.equals("OP", true) == true) "1" else "2"
+                click(institution.facility_category_name_3 ?: "", "1", encounterTypeUuid)
             }
         }
     }
