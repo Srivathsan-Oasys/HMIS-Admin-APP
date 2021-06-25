@@ -12,10 +12,8 @@ import com.hmis_tn.admin.ui.patient_details.model.PatientDetailsReq
 import com.hmis_tn.admin.ui.patient_details.model.PatientDetailsResp
 import retrofit2.Call
 import retrofit2.http.Body
-import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
-import retrofit2.http.Query
 
 interface ApiService {
 
@@ -56,6 +54,7 @@ interface ApiService {
 
     @POST(POST_PATIENT_DETAILS)
     fun getPatientDetails(
+        @Header("Accept-Language") acceptLanguage: String?,
         @Header("Authorization") authorization: String?,
         @Header("user_uuid") user_uuid: Int?,
         @Body patientDetailsReq: PatientDetailsReq

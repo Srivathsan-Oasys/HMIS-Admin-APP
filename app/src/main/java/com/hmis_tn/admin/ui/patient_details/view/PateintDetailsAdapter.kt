@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hmis_tn.admin.R
 import com.hmis_tn.admin.ui.patient_details.model.PatientDetail
+import com.hmis_tn.admin.ui.patient_details.model.PatientVisit
 import kotlinx.android.synthetic.main.adapter_patient_details.view.*
 
 class PateintDetailsAdapter(
     private val context: Context,
-    private var listData:List<PatientDetail>
+    private var listData:List<PatientVisit>
 ):
     RecyclerView.Adapter<PateintDetailsAdapter.MyViewHolder>() {
 
@@ -24,9 +25,10 @@ class PateintDetailsAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val responseData=listData[position]
-        holder.itemView.adapter_tvDate.text=""
-        holder.itemView.adapter_tvDoctorInfo.text=""
-        holder.itemView.adapter_tvInfo.text=""
+
+        holder.itemView.adapter_tvDate.text= responseData.registered_date
+        holder.itemView.adapter_tvDoctorInfo.text=" "+"-"+responseData.department_details?.name
+        holder.itemView.adapter_tvInfo.text=" "
 
     }
 
