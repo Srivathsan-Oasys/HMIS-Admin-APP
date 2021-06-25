@@ -7,10 +7,16 @@
     android:orientation="vertical"
     tools:context=".ui.patientSearch.view.PatientSearchActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_alignParentTop="true"
+        android:layout_height="wrap_content"
+        android:paddingBottom="50dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -158,7 +164,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginVertical="5dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvOp">
@@ -182,5 +188,14 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.core.widget.NestedScrollView>
-
+        <Button
+            android:id="@+id/btBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:layout_alignParentBottom="true"
+            android:backgroundTint="@android:color/darker_gray"
+            android:drawableLeft="@drawable/ic_arrow_left"
+            />
+    </RelativeLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -63,6 +63,13 @@ class PatientSearchActivity : AppCompatActivity() {
 */
 
 
+        onClickViews()
+    }
+
+    private fun onClickViews() {
+        btBack.setOnClickListener {
+            finish()
+        }
     }
 
     private fun initLisitor() {

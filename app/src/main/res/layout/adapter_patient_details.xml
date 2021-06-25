@@ -54,7 +54,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
-                        android:layout_weight=".4"
+                        android:layout_weight=".5"
                         android:text="hello doctor - ward name"
                         app:drawableTint="@android:color/darker_gray" />
                     <TextView
@@ -62,7 +62,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
-                        android:layout_weight=".6"
+                        android:layout_weight=".5"
                         android:gravity="end"
                         android:text="Date"
                         app:drawableTint="@android:color/darker_gray" />
