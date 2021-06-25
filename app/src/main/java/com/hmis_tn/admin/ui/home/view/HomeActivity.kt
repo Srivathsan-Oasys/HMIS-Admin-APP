@@ -1,5 +1,6 @@
 package com.hmis_tn.admin.ui.home.view
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.res.Resources
 import android.content.res.TypedArray
@@ -7,6 +8,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.TypedValue
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -34,6 +36,19 @@ class HomeActivity : AppCompatActivity() {
 
     val displayList = ArrayList<Institution>()
 
+    private var mYear: Int? = null
+    private var mMonth: Int? = null
+    private var mDay: Int? = null
+    private var fromDate: String = ""
+    private var toDate: String = ""
+
+    private var cal = Calendar.getInstance()
+
+    private var from_datetime: String = ""
+    private var to_datetime: String = ""
+
+    private var encounterTypeUuid = "1"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -46,6 +61,12 @@ class HomeActivity : AppCompatActivity() {
 
     private fun initViews() {
         homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+
+        val sdf = SimpleDateFormat("yyyy-MM-dd")
+        val formatter = SimpleDateFormat("dd-MM-yyyy")
+        etCalendar?.setText("""${formatter.format(Date())}-${formatter.format(Date())}""")
+        from_datetime = sdf.format(Date()) + " 00:00:00"
+        to_datetime = sdf.format(Date()) + " 23:59:59"
 
         tvPatientCount.text = "Total Patient Count - (0)"
 
@@ -65,17 +86,89 @@ class HomeActivity : AppCompatActivity() {
 
     private fun listeners() {
         tvOp.setOnClickListener {
-            displayList.clear()
-            rvInstitutions?.adapter?.notifyDataSetChanged()
             selectButton(tvOp)
-            getInstitutionList("1")
+            encounterTypeUuid = "1"
+            getInstitutionList(encounterTypeUuid)
         }
 
         tvIp.setOnClickListener {
-            displayList.clear()
-            rvInstitutions?.adapter?.notifyDataSetChanged()
             selectButton(tvIp)
-            getInstitutionList("2")
+            encounterTypeUuid = "2"
+            getInstitutionList(encounterTypeUuid)
+        }
+
+        etCalendar!!.setOnClickListener {
+            Toast.makeText(this, "Select Start Date", Toast.LENGTH_SHORT).show()
+            val c: Calendar = Calendar.getInstance()
+            mYear = c.get(Calendar.YEAR)
+            mMonth = c.get(Calendar.MONTH)
+            mDay = c.get(Calendar.DAY_OF_MONTH)
+            val datePickerDialog = DatePickerDialog(
+                this,
+                DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+
+                    Toast.makeText(this, "Select End Date", Toast.LENGTH_SHORT).show()
+
+                    fromDate = String.format(
+                        "%02d",
+                        dayOfMonth
+                    ) + "-" + String.format("%02d", monthOfYear + 1) + "-" + year
+
+                    from_datetime = year.toString() + "-" + String.format(
+                        "%02d",
+                        monthOfYear + 1
+                    ) + "-" + String.format(
+                        "%02d",
+                        dayOfMonth
+                    ) + " 00:00:00"
+
+
+                    cal.set(Calendar.YEAR, year)
+                    cal.set(Calendar.MONTH, monthOfYear)
+                    cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+
+                    val dateoickDialog = DatePickerDialog(
+                        this,
+                        DatePickerDialog.OnDateSetListener { view, year1, month1, dayOfMonth1 ->
+
+                            toDate = String.format(
+                                "%02d",
+                                dayOfMonth1
+                            ) + "-" + String.format("%02d", month1 + 1) + "-" + year1
+
+                            to_datetime = year1.toString() + "-" + String.format(
+                                "%02d",
+                                month1 + 1
+                            ) + "-" + String.format(
+                                "%02d",
+                                dayOfMonth1
+                            ) + " 23:59:59"
+
+                            etCalendar?.setText("$fromDate-$toDate")
+
+                            getInstitutionList(encounterTypeUuid)
+
+                        },
+                        mYear!!,
+                        mMonth!!,
+                        mDay!!
+                    )
+
+                    dateoickDialog.datePicker.maxDate = Calendar.getInstance().timeInMillis
+
+                    dateoickDialog.datePicker.minDate = cal.timeInMillis
+
+                    dateoickDialog.show()
+
+
+                }, mYear!!, mMonth!!, mDay!!
+            )
+
+            datePickerDialog.datePicker.maxDate = Calendar.getInstance().timeInMillis
+
+            datePickerDialog.show()
+
         }
     }
 
@@ -141,9 +234,8 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun getInstitutionList(encounterTypeId: String) {
-        val sdf = SimpleDateFormat("yyyy-MM-dd")
-        val from_datetime = sdf.format(Date()) + " 00:00:00"
-        val to_datetime = sdf.format(Date()) + " 23:59:59"
+        displayList.clear()
+        rvInstitutions?.adapter?.notifyDataSetChanged()
 
         val body = InstitutionListReq(
             encounter_type_id = encounterTypeId,
@@ -153,7 +245,7 @@ class HomeActivity : AppCompatActivity() {
         val pref = getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, MODE_PRIVATE)
         val authorization = "Bearer ${pref.getString(Constants.PREF_ACCESS_TOKEN, "")}"
         val userUuid = pref.getInt(Constants.PREF_USER_UUID, 0)
-        homeViewModel.getOpList(this, authorization, userUuid, body, institutionCallback)
+        homeViewModel.getInstitutionList(this, authorization, userUuid, body, institutionCallback)
     }
 
     private val institutionCallback = object : Callback<InstitutionListResp> {

@@ -13,7 +13,7 @@ class HomeViewModel : ViewModel() {
 
     private lateinit var apiService: ApiService
 
-    fun getOpList(
+    fun getInstitutionList(
         context: Context,
         authorization: String,
         user_uuid: Int,

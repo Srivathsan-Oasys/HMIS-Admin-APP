@@ -1,5 +1,6 @@
 package com.hmis_tn.admin.ui.home.view
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -98,6 +99,7 @@ class InstitutionAdapter(
                             R.drawable.dme
                         )
                     )
+                    llInstitution.setBackgroundColor(Color.GREEN)
                 }
                 categoryName?.equals("DMS") == true -> {
                     ivInstitution.setImageDrawable(
@@ -106,6 +108,7 @@ class InstitutionAdapter(
                             R.drawable.dms
                         )
                     )
+                    llInstitution.setBackgroundColor(Color.MAGENTA)
                 }
                 categoryName?.equals("DPH") == true -> {
                     ivInstitution.setImageDrawable(
@@ -114,6 +117,7 @@ class InstitutionAdapter(
                             R.drawable.dph
                         )
                     )
+                    llInstitution.setBackgroundColor(Color.RED)
                 }
             }
         }
