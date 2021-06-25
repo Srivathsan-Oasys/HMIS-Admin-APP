@@ -51,7 +51,7 @@ class HomeActivity : AppCompatActivity() {
             InstitutionAdapter(displayList) { facilityCategoryId, genderId, encounterTypeId ->
                 val intent = Intent(this, PatientSearchActivity::class.java)
                 val bundle = Bundle()
-                bundle.putString(Constants.BUNDLE_FACILITY_CATEGORY_ID, facilityCategoryId)
+                bundle.putInt(Constants.BUNDLE_FACILITY_CATEGORY_ID, facilityCategoryId)
                 bundle.putString(Constants.BUNDLE_GENDER_ID, genderId)
                 bundle.putString(Constants.BUNDLE_ENCOUNTER_TYPE_ID, encounterTypeId)
                 intent.putExtras(bundle)

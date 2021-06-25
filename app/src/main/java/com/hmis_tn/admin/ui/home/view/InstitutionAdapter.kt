@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.item_institutions.view.*
 
 class InstitutionAdapter(
     private val list: ArrayList<Institution>,
-    private val click: (String, String, String) -> Unit
+    private val click: (Int, String, String) -> Unit
 ) : RecyclerView.Adapter<InstitutionAdapter.MyViewHolder>() {
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view)
@@ -58,19 +58,19 @@ class InstitutionAdapter(
             tvMale.setOnClickListener {
                 val encounterTypeUuid =
                     if (institution.encounter_type_name_1?.equals("OP", true) == true) "1" else "2"
-                click(institution.facility_category_name_1 ?: "", "1", encounterTypeUuid)
+                click(institution.facility_category_uuid_1 ?: 0, "1", encounterTypeUuid)
             }
 
             tvFemale.setOnClickListener {
                 val encounterTypeUuid =
                     if (institution.encounter_type_name_2?.equals("OP", true) == true) "1" else "2"
-                click(institution.facility_category_name_2 ?: "", "1", encounterTypeUuid)
+                click(institution.facility_category_uuid_2 ?: 0, "1", encounterTypeUuid)
             }
 
             tvTransgender.setOnClickListener {
                 val encounterTypeUuid =
                     if (institution.encounter_type_name_3?.equals("OP", true) == true) "1" else "2"
-                click(institution.facility_category_name_3 ?: "", "1", encounterTypeUuid)
+                click(institution.facility_category_uuid_3 ?: 0, "1", encounterTypeUuid)
             }
         }
     }

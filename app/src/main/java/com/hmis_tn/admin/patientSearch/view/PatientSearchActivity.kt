@@ -38,7 +38,7 @@ class PatientSearchActivity : AppCompatActivity() {
 
     private var cal = Calendar.getInstance()
 
-    private var facility_category_id = "0"
+    private var facility_category_id = 0
     private var gender_id: String = "0"
     private var from_datetime: String = ""
     private var to_datetime: String = ""
@@ -163,7 +163,7 @@ class PatientSearchActivity : AppCompatActivity() {
 
         val bundle: Bundle? = intent.extras
         if (bundle != null) {
-            facility_category_id = bundle.getString(Constants.BUNDLE_FACILITY_CATEGORY_ID, "0")
+            facility_category_id = bundle.getInt(Constants.BUNDLE_FACILITY_CATEGORY_ID, 0)
             gender_id = bundle.getString(Constants.BUNDLE_GENDER_ID, "0")
             encounter_type_id = bundle.getString(Constants.BUNDLE_ENCOUNTER_TYPE_ID, "0")
         }
@@ -172,13 +172,12 @@ class PatientSearchActivity : AppCompatActivity() {
     }
 
     private fun getPatientList() {
-        var body = PatitentListRequest(
+        val body = PatitentListRequest(
             facility_category_id = facility_category_id,
             gender_id = gender_id,
             from_datetime = from_datetime,
             to_datetime = to_datetime,
             encounter_type_id = encounter_type_id
-
         )
 
         patientListViewModel.getPatitentList(
@@ -186,28 +185,8 @@ class PatientSearchActivity : AppCompatActivity() {
             body,
             token,
             userId,
-            object : Callback<PatientListResponseModel> {
-                override fun onResponse(
-                    call: Call<PatientListResponseModel>,
-                    response: Response<PatientListResponseModel>
-                ) {
-
-                    ProgressUtil.dismissProgressDialog()
-
-                    response.body()?.let { it ->
-
-                        setAdapter(it.responseContents)
-                    }
-
-                }
-
-                override fun onFailure(call: Call<PatientListResponseModel>, t: Throwable) {
-                    ProgressUtil.dismissProgressDialog()
-                    t.printStackTrace()
-                }
-            })
-
-
+            patientListCallback
+        )
     }
 
     private fun setAdapter(responseContents: List<PatientData>) {
@@ -222,11 +201,8 @@ class PatientSearchActivity : AppCompatActivity() {
         adapter.setOnItemClickListener(object : PatitentListAdapter.OnItemClickListener {
             override fun onItemClick(responseContent: PatientData?, position: Int) {
                 // next page
-
-
             }
         })
-
     }
 
     private fun getGenderData() {
@@ -238,35 +214,11 @@ class PatientSearchActivity : AppCompatActivity() {
             body,
             token,
             userId,
-            object : Callback<GenderListResponseModel> {
-                override fun onResponse(
-                    call: Call<GenderListResponseModel>,
-                    response: Response<GenderListResponseModel>
-                ) {
-
-                    ProgressUtil.dismissProgressDialog()
-
-                    response.body()?.let { genderListResponseModel ->
-
-                        if (genderListResponseModel.statusCode == 200) {
-
-                            setGenderData(genderListResponseModel.responseContents)
-
-                        }
-                    }
-                }
-
-                override fun onFailure(call: Call<GenderListResponseModel>, t: Throwable) {
-                    ProgressUtil.dismissProgressDialog()
-                    t.printStackTrace()
-                }
-            })
-
+            genderDataCallback
+        )
     }
 
-
     private fun setGenderData(responseContents: List<GenderResponse>) {
-
         val responseContentAdapter = GenderListAdapter(
             this,
             R.layout.row_chief_complaint_search_result,
@@ -276,15 +228,49 @@ class PatientSearchActivity : AppCompatActivity() {
         spinnerGender!!.setAdapter(responseContentAdapter)
         spinnerGender!!.setOnItemClickListener { parent, _, pos, id ->
             val selectedPoi = parent.adapter.getItem(pos) as GenderResponse?
-
             spinnerGender.setText(selectedPoi?.name)
-
             Log.i("response", "" + selectedPoi?.name)
-
-
         }
-
-
     }
 
+    private val genderDataCallback = object : Callback<GenderListResponseModel> {
+        override fun onResponse(
+            call: Call<GenderListResponseModel>,
+            response: Response<GenderListResponseModel>
+        ) {
+
+            ProgressUtil.dismissProgressDialog()
+
+            response.body()?.let { genderListResponseModel ->
+
+                if (genderListResponseModel.statusCode == 200) {
+
+                    setGenderData(genderListResponseModel.responseContents)
+
+                }
+            }
+        }
+
+        override fun onFailure(call: Call<GenderListResponseModel>, t: Throwable) {
+            ProgressUtil.dismissProgressDialog()
+            t.printStackTrace()
+        }
+    }
+
+    private val patientListCallback = object : Callback<PatientListResponseModel> {
+        override fun onResponse(
+            call: Call<PatientListResponseModel>,
+            response: Response<PatientListResponseModel>
+        ) {
+            ProgressUtil.dismissProgressDialog()
+            response.body()?.let { it ->
+                setAdapter(it.responseContents)
+            }
+        }
+
+        override fun onFailure(call: Call<PatientListResponseModel>, t: Throwable) {
+            ProgressUtil.dismissProgressDialog()
+            t.printStackTrace()
+        }
+    }
 }
