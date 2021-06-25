@@ -1,13 +1,12 @@
-package com.hmis_tn.admin.ui.home.view
+package com.hmis_tn.admin.ui.patient_details.view
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hmis_tn.admin.R
-import com.hmis_tn.admin.ui.home.model.patientDetails.PatientDetail
+import com.hmis_tn.admin.ui.patient_details.model.PatientDetail
 import kotlinx.android.synthetic.main.adapter_patient_details.view.*
 
 class PateintDetailsAdapter(
